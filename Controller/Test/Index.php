@@ -1,5 +1,5 @@
 <?php
-namespace Blizzard\Warcraft\Controller;
+namespace Blizzard\Warcraft\Controller\Test;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
