@@ -57,7 +57,7 @@ class InstallSchema implements InstallSchemaInterface
                 'entity_id',
                 Table::ACTION_CASCADE
             )
-            ->setComment('Blizzard Warcraf Table');
+            ->setComment('Blizzard Warcraft Table');
 
         $installer->getConnection()->createTable($table);
 
