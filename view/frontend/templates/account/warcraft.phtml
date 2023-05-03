@@ -1,0 +1,13 @@
+<?php
+/**
+ * @var \Blizzard\Warcraft\Block\Account\Warcraft $block
+ */
+$warcraftInfo = $block->getWarcraftInfo();
+?>
+<div class="warcraft-info">
+    <h2><?= $block->escapeHtml(__('Warcraft Information')) ?></h2>
+    <p><?= $block->escapeHtml(__('Level: %1', $warcraftInfo['level'])) ?></p>
+    <p><?= $block->escapeHtml(__('Experience: %1', $warcraftInfo['experience'])) ?></p>
+    <p><?= $block->escapeHtml(__('Promotion: %1', $warcraftInfo['promotion'])) ?></p>
+    <p><?= $block->escapeHtml(__('Rank: %1', $warcraftInfo['rank'])) ?></p>
+</div>
