@@ -7,8 +7,9 @@ use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterf
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Customer\Model\Session;
 use Blizzard\Warcraft\Model\WarcraftFactory;
-use Magento\Framework\Message\ManagerInterface;
+use Blizzard\Warcraft\Model\ResourceModel\Warcraft as WarcraftResource;
 
 class Index implements HttpGetActionInterface, HttpPostActionInterface
 {
@@ -32,27 +33,38 @@ class Index implements HttpGetActionInterface, HttpPostActionInterface
      */
     protected $warcraftFactory;
 
-    protected $messageManager;
+    /**
+     * @var WarcraftResource
+     */
+    protected $warcraftResource;
+
+    /**
+     * @var Session
+     */
+    protected $customerSession;
 
     /**
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param JsonFactory $resultJsonFactory
      * @param WarcraftFactory $warcraftFactory
-     * @param ManagerInterface $messageManager,
+     * @param WarcraftResource $warcraftResource
+     * @param Session $customerSession
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         JsonFactory $resultJsonFactory,
         WarcraftFactory $warcraftFactory,
-        ManagerInterface $messageManager
+        WarcraftResource $warcraftResource,
+        Session $customerSession
     ) {
         $this->context = $context;
         $this->resultPageFactory = $resultPageFactory;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->warcraftFactory = $warcraftFactory;
-        $this->messageManager = $messageManager;
+        $this->warcraftResource = $warcraftResource;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -63,23 +75,37 @@ class Index implements HttpGetActionInterface, HttpPostActionInterface
     public function execute(): ResultInterface
     {
         $result = $this->resultJsonFactory->create();
-        $customer_char = $this->warcraftFactory->create();
-        $data = [
-            'customer_id' => 2,
-            'level' => 2,
-            'experience' => 300,
-            'promotion' => '-10%',
-            'rank' => 2
-        ];
-        $customer_char->setData($data);
-        // Save the data to the database
-        try {
-            $customer_char->save();
-            $this->messageManager->addSuccessMessage(__('Data saved successfully.'));
-            $result->setData(['Cities' => ['stormwind']]);
-        } catch (\Exception $e) {
-            $this->messageManager->addErrorMessage(__('An error occurred while saving the data.'));
-            $result->setData(['Cities' => ['orgrimmar']]);
+        if ($this->customerSession->isLoggedIn()) {
+
+            $customerId = $this->customerSession->getCustomer()->getId();
+
+            // Load the Warcraft model by customer ID
+            $customer_char = $this->warcraftFactory->create();
+            $warcraftResource = $this->warcraftResource;
+            $warcraftResource->load($customer_char, $customerId, 'customer_id');
+
+            $data = [
+                'customer_id' => $customerId,
+                'level' => 2,
+                'experience' => 400,
+                'promotion' => '-10%',
+                'rank' => 'Palouf'
+            ];
+
+            if (!$customer_char->getId()) {
+                // Insert a new row if the row with the same customer ID doesn't exist
+                $connection = $warcraftResource->getConnection();
+                $connection->insert($warcraftResource->getMainTable(), $data);
+                $result->setData(['Message' => 'Data inserted']);
+            } else {
+                // Update the existing row if the row with the same customer ID exists
+                $customer_char->setData($data);
+                $warcraftResource->save($customer_char);
+                $result->setData(['Message' => 'Data updated']);
+            }
+
+        } else {
+            $result->setData(['Message' => 'Not logged in']);
         }
         return $result;
     }

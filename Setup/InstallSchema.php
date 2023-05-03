@@ -50,13 +50,6 @@ class InstallSchema implements InstallSchemaInterface
                 ['nullable' => true, 'default' => null],
                 'Rank'
             )
-            ->addForeignKey(
-                $installer->getFkName('blizzard_warcraft', 'customer_id', 'customer_entity', 'entity_id'),
-                'customer_id',
-                $installer->getTable('customer_entity'),
-                'entity_id',
-                Table::ACTION_CASCADE
-            )
             ->setComment('Blizzard Warcraft Table');
 
         $installer->getConnection()->createTable($table);
