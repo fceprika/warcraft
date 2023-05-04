@@ -2,12 +2,23 @@
 /**
  * @var \Blizzard\Warcraft\Block\Account\Warcraft $block
  */
-$warcraftInfo = $block->getWarcraftInfo();
+
+$customerCharacter = $block->getCustomerCharacter();
+if ($customerCharacter):
 ?>
-<div class="warcraft-info">
-    <h2><?= $block->escapeHtml(__('Warcraft Information')) ?></h2>
-    <p><?= $block->escapeHtml(__('Level: %1', $warcraftInfo['level'])) ?></p>
-    <p><?= $block->escapeHtml(__('Experience: %1', $warcraftInfo['experience'])) ?></p>
-    <p><?= $block->escapeHtml(__('Promotion: %1', $warcraftInfo['promotion'])) ?></p>
-    <p><?= $block->escapeHtml(__('Rank: %1', $warcraftInfo['rank'])) ?></p>
-</div>
+    <h2><?= __('Character Information') ?></h2>
+    <ul>
+        <li><?= __('Level: %1', $customerCharacter['level']) ?></li>
+        <li><?= __('Experience: %1', $customerCharacter['experience']) ?></li>
+        <li><?= __('Promotion: %1', $customerCharacter['promotion'] ?? __('None')) ?></li>
+        <li><?= __('Rank: %1', $customerCharacter['rank']) ?></li>
+    </ul>
+<?php else: ?>
+    <form action="<?= $block->getUrl('warcraft/account/createCharacter') ?>" method="post">
+        <input name="form_key" type="hidden" value="<?= $block->getFormKey() ?>"/>
+        <button type="submit" class="action primary">
+            <span><?= __('Create Character') ?></span>
+        </button>
+    </form>
+<?php endif; ?>
+

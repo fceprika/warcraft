@@ -82,7 +82,7 @@ class Index implements HttpGetActionInterface, HttpPostActionInterface
             // Load the Warcraft model by customer ID
             $customer_char = $this->warcraftFactory->create();
             $warcraftResource = $this->warcraftResource;
-            $warcraftResource->load($customer_char, $customerId, 'customer_id');
+            $this->warcraftResource->load($customer_char, $customerId, 'customer_id');
 
             $data = [
                 'customer_id' => $customerId,

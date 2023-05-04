@@ -3,26 +3,41 @@ namespace Blizzard\Warcraft\Block\Account;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Customer\Model\Session;
+use Blizzard\Warcraft\Model\WarcraftFactory;
+use Blizzard\Warcraft\Model\ResourceModel\Warcraft as WarcraftResource;
 
 class Warcraft extends Template
 {
+    protected $customerSession;
+    protected $warcraftFactory;
+
+    protected $warcraftResource;
     public function __construct(
         Context $context,
+        Session $customerSession,
+        WarcraftFactory $warcraftFactory,
+        WarcraftResource $warcraftResource,
         array $data = []
     ) {
+        $this->customerSession = $customerSession;
+        $this->warcraftFactory = $warcraftFactory;
+        $this->warcraftResource = $warcraftResource;
         parent::__construct($context, $data);
     }
 
-    public function getWarcraftInfo()
+    public function getCustomerCharacter()
     {
-        // Implement your custom logic to fetch Warcraft info for the customer here
-        // For example, you can load the customer data from your custom table and return it as an array
 
-        return [
-            'level' => 5,
-            'experience' => 1000,
-            'promotion' => '-10%',
-            'rank' => 'Palouf'
-        ];
+        $customerId = $this->customerSession->getCustomer()->getId();
+        $character = $this->warcraftFactory->create();
+        $this->warcraftResource->load($character, $customerId, 'customer_id');
+
+        if ($character->getId()) {
+            return $character->getData();
+        }
+
+        return null;
     }
+
 }
