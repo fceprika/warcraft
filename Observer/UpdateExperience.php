@@ -41,9 +41,8 @@ class UpdateExperience implements ObserverInterface
 
         if ($customer_char->getId()) {
             // Update the customer character's experience
-            $currentExperience = $customer_char->getExperience();
-            $newExperience = $currentExperience + $experience;
-            $rankInfo = $this->helperData->getRankInfoByExperience($experience);
+            $newExperience = $customer_char->getExperience() + $experience;
+            $rankInfo = $this->helperData->getRankInfoByExperience($newExperience);
             $customer_char->setExperience($newExperience);
             $customer_char->setRank($rankInfo['name']);
             $customer_char->setPromotion($rankInfo['discount'] . '%');

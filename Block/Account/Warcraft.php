@@ -28,7 +28,6 @@ class Warcraft extends Template
 
     public function getCustomerCharacter()
     {
-
         $customerId = $this->customerSession->getCustomer()->getId();
         $character = $this->warcraftFactory->create();
         $this->warcraftResource->load($character, $customerId, 'customer_id');

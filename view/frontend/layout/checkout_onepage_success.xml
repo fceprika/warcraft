@@ -3,6 +3,7 @@
     <body>
         <referenceBlock name="order.success.additional.info">
             <block class="Blizzard\Warcraft\Block\Order\Experience" name="order.success.experience" template="Blizzard_Warcraft::order/experience.phtml" />
+            <block class="Blizzard\Warcraft\Block\Account\Warcraft" name="order.success.character" template="Blizzard_Warcraft::order/character.phtml" />
         </referenceBlock>
     </body>
 </page>

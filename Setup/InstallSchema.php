@@ -23,13 +23,6 @@ class InstallSchema implements InstallSchemaInterface
                 'Customer ID'
             )
             ->addColumn(
-                'level',
-                Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '1'],
-                'Level'
-            )
-            ->addColumn(
                 'experience',
                 Table::TYPE_INTEGER,
                 null,

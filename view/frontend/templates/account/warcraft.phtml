@@ -8,10 +8,9 @@ if ($customerCharacter):
 ?>
     <h2><?= __('Character Information') ?></h2>
     <ul>
-        <li><?= __('Level: %1', $customerCharacter['level']) ?></li>
+        <li><?= __('Rank: %1', $customerCharacter['rank']) ?></li>
         <li><?= __('Experience: %1', $customerCharacter['experience']) ?></li>
         <li><?= __('Promotion: %1', $customerCharacter['promotion'] ?? __('None')) ?></li>
-        <li><?= __('Rank: %1', $customerCharacter['rank']) ?></li>
     </ul>
 <?php else: ?>
     <form action="<?= $block->getUrl('warcraft/account/createCharacter') ?>" method="post">

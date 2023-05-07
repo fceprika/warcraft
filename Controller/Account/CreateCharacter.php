@@ -41,7 +41,6 @@ class CreateCharacter extends Action
 
             $data = [
                 'customer_id' => $customerId,
-                'level' => 1,
                 'experience' => 0,
                 'promotion' => 'None yet !',
                 'rank' => 'New player'

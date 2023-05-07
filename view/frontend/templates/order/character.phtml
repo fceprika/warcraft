@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var \Blizzard\Warcraft\Block\Account\Warcraft $block
+ */
+$customerCharacter = $block->getCustomerCharacter();
+?>
+<div class="checkout-success-experience">
+    <?php if ($customerCharacter): ?>
+        <h2><?= __('Congratulations! Your character is getting stronger !') ?></h2>
+        <ul>
+            <h3><?= __('Here are your updated characteristics:') ?></h3>
+            <li><?= __('Rank: %1', $customerCharacter['rank']) ?></li>
+            <li><?= __('Experience: %1', $customerCharacter['experience']) ?></li>
+            <li><?= __('Promotion: %1', $customerCharacter['promotion'] ?? __('None')) ?></li>
+        </ul>
+    <?php else: ?>
+        <h2><?= __('You should create a character !') ?></h2>
+    <?php endif; ?>
+</div>
