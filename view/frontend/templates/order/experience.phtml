@@ -1,0 +1,7 @@
+<?php
+/** @var \Blizzard\Warcraft\Block\Order\Experience $block */
+$gainedExperience = $block->getGainedExperience();
+?>
+<div class="checkout-success-experience">
+    <p><?php echo __('You have gained %1 experience points from this order.', $gainedExperience); ?></p>
+</div>

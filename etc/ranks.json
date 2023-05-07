@@ -1,0 +1,16 @@
+[
+  {"name": "Novice", "min_xp": 0, "max_xp": 2499, "discount": -2},
+  {"name": "Apprentice", "min_xp": 2500, "max_xp": 4999, "discount": -4},
+  {"name": "Journeyman", "min_xp": 5000, "max_xp": 9999, "discount": -6},
+  {"name": "Expert", "min_xp": 10000, "max_xp": 19999, "discount": -8},
+  {"name": "Artisan", "min_xp": 20000, "max_xp": 29999, "discount": -10},
+  {"name": "Master", "min_xp": 30000, "max_xp": 49999, "discount": -12},
+  {"name": "Grand Master", "min_xp": 50000, "max_xp": 99999, "discount": -14},
+  {"name": "Illustrious Grand Master", "min_xp": 100000, "max_xp": 199999, "discount": -16},
+  {"name": "Zen Master", "min_xp": 200000, "max_xp": 299999, "discount": -18},
+  {"name": "Draenor Master", "min_xp": 300000, "max_xp": 499999, "discount": -19},
+  {"name": "Legion Master", "min_xp": 500000, "max_xp": 749999, "discount": -19.5},
+  {"name": "Kul Tiran Master", "min_xp": 750000, "max_xp": 999999, "discount": -19.75},
+  {"name": "Zandalari Master", "min_xp": 1000000, "max_xp": 1499999, "discount": -19.9},
+  {"name": "Shadowlands Master", "min_xp": 1500000, "max_xp": 2147483647, "discount": -20}
+]

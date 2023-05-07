@@ -43,8 +43,8 @@ class CreateCharacter extends Action
                 'customer_id' => $customerId,
                 'level' => 1,
                 'experience' => 0,
-                'promotion' => '',
-                'rank' => 'New'
+                'promotion' => 'None yet !',
+                'rank' => 'New player'
             ];
 
             if (!$character->getId()) {
@@ -60,7 +60,7 @@ class CreateCharacter extends Action
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setPath('customer/account/');
+        $resultRedirect->setPath('warcraft/account/index');
         return $resultRedirect;
     }
 }
