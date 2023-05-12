@@ -9,13 +9,40 @@ use Blizzard\Warcraft\Model\WarcraftFactory;
 use Blizzard\Warcraft\Model\ResourceModel\Warcraft as WarcraftResource;
 use Magento\Framework\Controller\Result\RedirectFactory;
 
+/**
+ * Controller class for creating a character in the account section.
+ */
 class CreateCharacter extends Action
 {
+    /**
+     * @var Session Customer session instance.
+     */
     protected $customerSession;
+
+    /**
+     * @var WarcraftFactory Warcraft model factory instance.
+     */
     protected $warcraftFactory;
+
+    /**
+     * @var WarcraftResource Warcraft resource model instance.
+     */
     protected $warcraftResource;
+
+    /**
+     * @var RedirectFactory Redirect factory instance.
+     */
     protected $resultRedirectFactory;
 
+    /**
+     * Constructor: Initializes the required dependencies.
+     *
+     * @param Context $context
+     * @param Session $customerSession
+     * @param WarcraftFactory $warcraftFactory
+     * @param WarcraftResource $warcraftResource
+     * @param RedirectFactory $resultRedirectFactory
+     */
     public function __construct(
         Context $context,
         Session $customerSession,
@@ -30,6 +57,11 @@ class CreateCharacter extends Action
         $this->resultRedirectFactory = $resultRedirectFactory;
     }
 
+    /**
+     * Execute method for creating a character in the account section.
+     *
+     * @return \Magento\Framework\Controller\Result\Redirect Redirect to the account page.
+     */
     public function execute()
     {
         if ($this->customerSession->isLoggedIn()) {

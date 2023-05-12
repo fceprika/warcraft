@@ -6,55 +6,35 @@ use Magento\Quote\Model\Quote\Address\Total\AbstractTotal;
 use Magento\Quote\Model\Quote as MagentoQuote;
 use Magento\Quote\Api\Data\ShippingAssignmentInterface;
 use Magento\Quote\Model\Quote\Address\Total;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\SalesRule\Model\Validator;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Blizzard\Warcraft\Helper\Data as HelperData;
 
 class Discount extends AbstractTotal
 {
-
-    /**
-     * @var Validator Sales rule validator instance.
-     */
+    protected $eventManager;
     protected $calculator;
-
-    /**
-     * @var PriceCurrencyInterface Price currency instance.
-     */
+    protected $storeManager;
     protected $priceCurrency;
-
-    /**
-     * @var HelperData Custom helper data instance.
-     */
     protected $helperData;
 
-    /**
-     * Constructor: Initializes the required dependencies.
-     *
-     * @param Validator $validator
-     * @param PriceCurrencyInterface $priceCurrency
-     * @param HelperData $helperData
-     */
     public function __construct(
+        ManagerInterface $eventManager,
+        StoreManagerInterface $storeManager,
         Validator $validator,
         PriceCurrencyInterface $priceCurrency,
         HelperData $helperData
     ) {
         $this->setCode('testdiscount');
+        $this->eventManager = $eventManager;
         $this->calculator = $validator;
+        $this->storeManager = $storeManager;
         $this->priceCurrency = $priceCurrency;
         $this->helperData = $helperData;
     }
 
-
-    /**
-     * Collects the custom discount data based on the customer's rank.
-     *
-     * @param MagentoQuote $quote
-     * @param ShippingAssignmentInterface $shippingAssignment
-     * @param Total $total
-     * @return $this
-     */
     public function collect(
         MagentoQuote $quote,
         ShippingAssignmentInterface $shippingAssignment,
@@ -82,13 +62,6 @@ class Discount extends AbstractTotal
         return $this;
     }
 
-    /**
-     * Fetches the discount data to be displayed on the frontend.
-     *
-     * @param MagentoQuote $quote
-     * @param Total $total
-     * @return array|null
-     */
     public function fetch(MagentoQuote $quote, Total $total)
     {
         $result = null;
@@ -98,7 +71,7 @@ class Discount extends AbstractTotal
             $description = $total->getDiscountDescription();
             $result = [
                 'code' => $this->getCode(),
-                'title' => strlen($description) ? __('Character Discount (%1)', $description) : __('Character Discount'),
+                'title' => strlen($description) ? __('Discount (%1)', $description) : __('Discount'),
                 'value' => $amount,
             ];
         }

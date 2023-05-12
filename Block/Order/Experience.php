@@ -8,14 +8,41 @@ use Blizzard\Warcraft\Model\WarcraftFactory;
 use Blizzard\Warcraft\Model\ResourceModel\Warcraft as WarcraftResource;
 use Magento\Customer\Model\Session;
 
+/**
+ * Custom block for displaying gained experience after placing an order.
+ */
 class Experience extends Template
 {
+    /**
+     * @var CheckoutSession Checkout session instance.
+     */
     protected $checkoutSession;
+
+    /**
+     * @var WarcraftFactory Warcraft model factory instance.
+     */
     protected $warcraftFactory;
+
+    /**
+     * @var WarcraftResource Warcraft resource model instance.
+     */
     protected $warcraftResource;
 
+    /**
+     * @var Session Customer session instance.
+     */
     protected $customerSession;
 
+    /**
+     * Constructor: Initializes the required dependencies.
+     *
+     * @param Context $context
+     * @param CheckoutSession $checkoutSession
+     * @param WarcraftFactory $warcraftFactory
+     * @param WarcraftResource $warcraftResource
+     * @param Session $customerSession
+     * @param array $data
+     */
     public function __construct(
         Context $context,
         CheckoutSession $checkoutSession,
@@ -31,27 +58,15 @@ class Experience extends Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Returns the experience gained by the character.
+     *
+     * @return float | int
+     */
     public function getGainedExperience()
     {
         $order = $this->checkoutSession->getLastRealOrder();
-        $grandTotal = $order->getGrandTotal();
-        $experience = $grandTotal * 100;
-        return $experience;
+        return $order->getGrandTotal() * 100;
     }
-
-    public function getCustomerCharacter()
-    {
-        if ($this->customerSession->isLoggedIn()) {
-            $customerId = $this->customerSession->getCustomer()->getId();
-
-            $character = $this->warcraftFactory->create();
-            $warcraftResource = $this->warcraftResource;
-            $this->warcraftResource->load($character, $customerId, 'customer_id');
-            if (!$character->getId()) {
-
-            }
-        }
-
-        }
 
 }
