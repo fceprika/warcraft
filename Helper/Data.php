@@ -36,7 +36,7 @@ class Data
             $customerId = $this->customerSession->getCustomer()->getId();
             $customer_char = $this->warcraftFactory->create();
             $this->warcraftResource->load($customer_char, $customerId, 'customer_id');
-            if($customer_char){
+            if ($customer_char) {
                 return $customer_char->getPromotion();
             } else {
                 return null;
@@ -44,7 +44,6 @@ class Data
         } else {
             return null;
         }
-
     }
 
     public function getRankInfoByExperience($experience)
